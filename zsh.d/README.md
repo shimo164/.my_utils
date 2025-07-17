@@ -2,14 +2,6 @@
 
 Modular zsh configuration with organized file structure and enhanced functionality.
 
-## Setup
-
-1. Create symbolic link to main zshrc:
-   ```bash
-   ln -s ~/.zsh.d/zshrc ~/.zshrc
-   source ~/.zshrc
-   ```
-
 ## File Structure
 
 ```
@@ -55,13 +47,6 @@ The following files contain sensitive information and are excluded from version 
 
 - Common aliases → `alias_common.zsh`
 - Sensitive/project-specific aliases → `alias.zsh`
-
-## Dependencies
-
-- zsh
-- oh-my-zsh
-- fzf
-- git
 
 ## Maintenance
 
