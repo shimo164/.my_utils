@@ -1,0 +1,14 @@
+# Sensitive files
+profile.zsh
+alias.zsh
+
+# Test files
+*.test.sh
+*_test.sh
+
+# Git directory
+.git/
+
+# Other sensitive or unnecessary files
+*.log
+*.tmp

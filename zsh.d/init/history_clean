@@ -1,0 +1,52 @@
+# History duplicate removal function
+remove_history_duplicates() {
+  local history_file="$HOME/.zsh_history"
+  local temp_file=$(mktemp)
+
+  if [[ -f "$history_file" ]]; then
+    echo "Removing duplicate commands from history..."
+
+    # 重複を削除（最後の出現を保持）
+    # awkを使用してコマンド部分（3番目のフィールド以降）で重複チェック
+    awk -F';' '
+    {
+      # コマンド部分を取得（セミコロン以降）
+      cmd = substr($0, index($0, ";") + 1)
+      # 重複チェック用の配列に保存（最後の出現を保持）
+      lines[cmd] = $0
+    }
+    END {
+      # 重複を除いた結果を出力
+      for (cmd in lines) {
+        print lines[cmd]
+      }
+    }' "$history_file" | sort -t: -k2,2n > "$temp_file"
+
+    # 元のファイルと置き換え
+    if [[ -s "$temp_file" ]]; then
+      mv "$temp_file" "$history_file"
+      echo "History duplicates removed successfully."
+    else
+      echo "Error: Failed to process history file."
+      rm -f "$temp_file"
+    fi
+  else
+    echo "History file not found: $history_file"
+  fi
+}
+
+# Terminal起動時に重複削除を実行
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd remove_history_duplicates_once
+
+# 一度だけ実行するためのフラグ管理
+typeset -g HISTORY_CLEANED=0
+
+remove_history_duplicates_once() {
+  if (( HISTORY_CLEANED == 0 )); then
+    remove_history_duplicates
+    HISTORY_CLEANED=1
+    # フックから自分自身を削除（一度だけ実行）
+    add-zsh-hook -d precmd remove_history_duplicates_once
+  fi
+}

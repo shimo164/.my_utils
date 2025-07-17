@@ -1,0 +1,34 @@
+# Init fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$PATH":~/.local/bin
+
+# BEGIN: fzf history
+function fzf-select-history() {
+  local selected_command
+  local action
+
+  # 履歴を取得し、表示用にクリーンアップ
+  local cleaned_history=$(get_cleaned_history)
+
+  # fzfで履歴を選
+  selected_command=$(echo "$cleaned_history" | fzf \
+    --query "$LBUFFER" \
+    --reverse)
+  --header="Enter: Execute"
+
+  zle reset-prompt
+}
+
+# 履歴をクリーンアップして取得する関数
+function get_cleaned_history() {
+  history -n -r 1 | sed \
+    -e 's/\[200~//g' \
+    -e 's/\[201~//g' \
+    -e 's/\^\[//g' \
+    -e 's/\x1b//g'
+}
+
+zle -N fzf-select-history
+bindkey '^r' fzf-select-history
+# END: fzf history

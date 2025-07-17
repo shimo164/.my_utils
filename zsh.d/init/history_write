@@ -1,0 +1,55 @@
+# BEGIN: zsh history ignore
+HISTORY_IGNORE="(history*|cd*|l[sal]?(*)|tree|exit*|clear|reset)"
+function zshaddhistory() {
+  emulate -L zsh
+  local trimmed_command=${1%%$'\n'}
+  if [[ "$trimmed_command" != ${~HISTORY_IGNORE} && ${#trimmed_command} -gt 3 ]]; then
+    return 0  # 履歴に追加する
+  else
+    return 1  # 履歴に追加しない # tmp https://chatgpt.com/c/6836e37a-f534-8007-87d7-24abc3f45490
+  fi
+}
+# END: zsh history ignore
+
+# BEGIN: zsh history ignore failed command
+### DEBUG ###
+function preexec_1() {
+  STATUS_preexec_1=$?
+  # echo "STATUS from preexec_1: $STATUS_preexec_1"
+}
+
+function precmd_1() {
+  STATUS_precmd_1=$?
+  # echo "STATUS from precmd: $STATUS_precmd_1"
+}
+
+function zshaddhistory_1() {
+  emulate -L zsh
+  STATUS_zshaddhistory=$?
+  # echo "STATUS from zshaddhistory: $STATUS_zshaddhistory"
+  # echo "STATUS from preexec in zshaddhistory: $STATUS_preexec_1"
+  # echo "STATUS from precmd in zshaddhistory: $STATUS_precmd_1"
+  if (( $STATUS_precmd_1 != 0 )); then
+    # echo "Command failed, not adding to history."
+
+	# Remove the last command from history
+	# This is a workaround to avoid adding failed commands to history
+	# Note: This will remove the last command from history, which is the failed command
+	# If you want to remove more than one command, you can adjust the number of lines to delete
+	# echo "Removing last command from history."
+	# Use sed to remove the last line from the history file
+	# This assumes that your history file is ~/.zsh_history
+	# Adjust the path if your history file is located elsewhere
+	sed -i '$d' ~/.zsh_history
+    return 1
+  fi
+}
+# END: zsh history ignore failed command
+
+autoload -Uz add-zsh-hook
+# add-zsh-hook zshaddhistory zshaddhistory_1
+# TODO: zshaddhistory is called before command result is available,
+# so we cannot use it to check command status. We use precmd instead.
+add-zsh-hook precmd precmd_1
+add-zsh-hook precmd zshaddhistory_1
+# add-zsh-hook preexec preexec_1
