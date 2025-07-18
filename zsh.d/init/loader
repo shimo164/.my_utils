@@ -1,6 +1,8 @@
 # BEGIN: split zsh
-# Read from .zshrc and .zsh.d/*zsh files
-ZSHHOME="${HOME}/.zsh.d"
+
+#  Path of the folder where *zsh files are stored
+ZSHHOME="${HOME}/.my_utils/zsh.d"
+
 if [ -d "$ZSHHOME" -a -r "$ZSHHOME" -a \
   -x "$ZSHHOME" ]; then
 
