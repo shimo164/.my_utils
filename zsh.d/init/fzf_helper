@@ -14,8 +14,8 @@ function fzf-select-history() {
   # fzfで履歴を選
   selected_command=$(echo "$cleaned_history" | fzf \
     --query "$LBUFFER" \
-    --reverse)
-  --header="Enter: Execute"
+    --reverse \
+    --header="Enter: Execute")
 
   zle reset-prompt
 }

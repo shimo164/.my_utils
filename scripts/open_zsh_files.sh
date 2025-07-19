@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set the file candidates
-file_candidates=(~/.zshrc ~/.my_utils/zsh.d/*.zsh)
+file_candidates=(~/.my_utils/zsh.d/zshrc ~/.my_utils/zsh.d/*.zsh)
 
 # Use fzf to select multiple files
 selected_files=$(printf '%s\n' "${file_candidates[@]}" | fzf --reverse --multi)
