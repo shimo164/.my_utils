@@ -8,10 +8,10 @@ modified_files=$(git status --porcelain | awk -v root="$git_repo_root" '{print r
 
 # Add instructions to the list of modified files
 instructions="
-=== stash slected files ===
-Please select one or more files from the list below.
-You can type to filter the list and press Enter to confirm your selection.
-Use TAB to select multiple files.
+=== stash selected files ===
+Select one or more files from the list below.
+- Type to filter the list and press Enter to confirm your selection.
+- Use TAB to select files.
 ====================
 "
 file_list=$(echo -e "$instructions\n$modified_files")

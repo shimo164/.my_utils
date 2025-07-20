@@ -19,9 +19,9 @@ settings.sh: should be in the same directory as main.sh
 '
 
 # Get the directory of the currently executing script
-DIR="${SCRIPTS}"
+DIR="${PATH_SCRIPTS}"
 if [ -z "$DIR" ]; then
-  echo "SCRIPTS environment variable is not set."
+  echo "PATH_SCRIPTS environment variable is not set."
 fi
 
 declare -A commands
