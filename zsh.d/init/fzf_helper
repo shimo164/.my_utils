@@ -11,11 +11,17 @@ function fzf-select-history() {
   # 履歴を取得し、表示用にクリーンアップ
   local cleaned_history=$(get_cleaned_history)
 
-  # fzfで履歴を選
+  # fzfで履歴を選ぶ
+  # LBUFFER は現在のカーソル位置の左側の内容
+  # ここに選んだ履歴を代入するとZshのプロンプトに挿入される
   selected_command=$(echo "$cleaned_history" | fzf \
     --query "$LBUFFER" \
     --reverse \
-    --header="Enter: Execute")
+    --header="Enter: Insert")
+
+  if [[ -n $selected_command ]]; then
+    LBUFFER=$selected_command
+  fi
 
   zle reset-prompt
 }
