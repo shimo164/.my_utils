@@ -40,7 +40,11 @@ function zshaddhistory_1() {
 	# Use sed to remove the last line from the history file
 	# This assumes that your history file is ~/.zsh_history
 	# Adjust the path if your history file is located elsewhere
-	sed -i '$d' ~/.zsh_history
+    if [[ "$OSTYPE" == darwin* ]]; then
+      sed -i '' '$d' ~/.zsh_history
+    else
+      sed -i '$d' ~/.zsh_history
+    fi
     return 1
   fi
 }
