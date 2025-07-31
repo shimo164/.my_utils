@@ -1,34 +1,46 @@
-ZSH_HISTORY_FILE="$HOME/.zsh_history"
-HISTORY_IGNORE="(history*|cd*|l[sal]?(*)|tree|exit*|clear|reset)"
+HISTORY_IGNORE="(history*|cd*|l[sal]?(*)|exit*)"
+MIN_CMD_LENGTH_TO_SAVE=6
 
-# BEGIN: zsh history skip original history write
+function is_ignore_history() {
+
+  # Ignore if it matches HISTORY_IGNORE
+  if [[ "$cmd" == ${~HISTORY_IGNORE} ]]; then
+    return 0
+  fi
+
+  # Ignore if too short
+  if (( ${#cmd} < MIN_CMD_LENGTH_TO_SAVE )); then
+    return 0
+  fi
+
+  return 1
+}
+
+# zsh history skip original history write
 function zshaddhistory() {
 
-  # Set command line variable to use in save_command
+  # Set command line as the global variable
   cmd=${1%%$'\n'}
   return 1
 }
-# END: zsh history skip original history write
 
-# BEGIN: zsh history write on condition
+# zsh history write on condition
 function save_command() {
 
-  STATUS_command=$?
+  EXIT_STATUS=$?
 
-  # Do not save command if it is in HISTORY_IGNORE
-  # or if it is too short
-  if [[ "$cmd" == ${~HISTORY_IGNORE} || ${#cmd} -le 3 ]]; then
+  if is_ignore_history "$cmd"; then
     return 1
   fi
 
-  if (( $STATUS_command == 0 )); then
+  if (( $EXIT_STATUS == 0 )); then
     print -sr -- "$cmd"
     fc -W
   fi
 }
-# END: zsh history write on condition
 
-# When the command status is available in precmd not in zshaddhistory.
+# Workaround for when the exit status of the last command
+# is available in precmd not in zshaddhistory.
 autoload -Uz add-zsh-hook
 # zshaddhistory() is called before precmd.
 add-zsh-hook precmd save_command
