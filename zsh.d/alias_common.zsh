@@ -42,6 +42,7 @@ alias ff='bash $PATH_SCRIPTS/fzf_alias_commands.sh'
 alias gg='bash $PATH_SCRIPTS/git_branch_checkout.sh'
 alias zrc='bash $PATH_SCRIPTS/open_zsh_files.sh'
 alias zrs='source ~/.zshrc'
+alias mkd='function _mkd(){ mkdir -p "$1" && cd "$1"; }; _mkd'
 
 # BEGIN: expand alias with space key
 function expand-alias() {

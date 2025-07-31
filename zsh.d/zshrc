@@ -5,7 +5,6 @@ source "${0:A:h}/init/oh_my_zsh"
 source "${0:A:h}/init/loader"
 
 # Load history utilities
-source "${0:A:h}/init/history_clean"
 source "${0:A:h}/init/history_write"
 
 # 既存の Ctrl+  を無効化(-r)
@@ -47,3 +46,8 @@ source "${0:A:h}/init/fzf_helper"
 
 # Set PATH for scripts
 export PATH_SCRIPTS=$HOME/.my_utils/scripts
+
+# Set PATH for npm global packages
+export PATH="$HOME/.npm-global/bin:$PATH"
+
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
