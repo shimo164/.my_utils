@@ -6,7 +6,7 @@
 # of the selected files to the console.
 
 # List of script extensions
-exts=("*.sh" "*.py" "*.js" "*.mjs" "*.md" "*.json" "*.html")
+exts=("*.sh" "*.py" "*.js" "*.mjs" "*.md" "*.json" "*.html" "*.java")
 
 # Build the find command to locate scripts of the above types
 find_str="find . -type f \( "

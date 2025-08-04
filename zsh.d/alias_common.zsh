@@ -8,13 +8,12 @@ alias \$=''
 alias a='cd ..'
 alias aa='cd ../..'
 alias aaa='cd ../../..'
-alias cdd='cd "$(git rev-parse --show-toplevel)"'  # cd to git root directory
+alias cdg='cd "$(git rev-parse --show-toplevel)"'  # cd to git root directory
 alias d='docker'
 alias l='ls -ltrh'
 alias la='ls -ltrha'
-alias ls='ls --color=auto'
-alias lld='du -hs $(ls -AF) | sort --human-numeric-sort'  # sort by numrica value
-alias llt='du -hs --time $(ls -AF) | sort -k 2,2'  # sort by time
+alias duh='du -hs --time $(ls -AF) --apparent-size | sort --human-numeric-sort'  # sort by numeric value
+alias dut='du -hs --time $(ls -AF) --apparent-size | sort -k 2,2'  # sort by time
 alias g='git'
 alias gc='gcloud'
 alias ga='git add --all'
@@ -28,7 +27,16 @@ alias gp='git pull'
 alias gs='git status'
 alias gsl='git stash list'
 
-alias grep=grep
+# Use function instead of long alias
+unalias ls
+ls(){
+  command ls --color=auto --human-readable --group-directories-first --time-style=long-iso "$@"
+}
+
+unalias grep
+grep() {
+  command grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox,.venv,venv} "$@"
+}
 
 # Use trash-cli instead of rm
 alias rm='echo "This is not the command you are looking for. Use 'trash'."; false'
@@ -52,6 +60,24 @@ function expand-alias() {
 zle -N expand-alias
 bindkey -M main ' ' expand-alias
 # END: expand alias with space key
+
+## Deprecated: backslash is not trimmed
+# function expand-alias-with-trim-backslash() {
+#    # Expand alias when space is pressed
+#    # Trim heading backslash if exists
+
+#    zle _expand_alias
+
+# 	# Trim \ from the expanded alias
+#    # When trimmed, a space is added; no self-insert
+#    if [[ "$LBUFFER" == \\* ]]; then
+#      LBUFFER="${LBUFFER#\\}"
+#    else
+#      zle self-insert
+#    fi
+# }
+# zle -N expand-alias-with-trim-backslash
+# bindkey -M main ' ' expand-alias-with-trim-backslash
 
 ## Use if needed
 # alias locate='mdfind -name'  # locate in MacOS
