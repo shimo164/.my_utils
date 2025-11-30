@@ -7,7 +7,7 @@ set -eo pipefail
 npm install -D @commitlint/cli @commitlint/config-conventional
 echo "module.exports = { extends: ['@commitlint/config-conventional'] };" > commitlint.config.js
 
-# Install husky
+# Install husky (>= v9)
 npm install --save-dev husky
 npx husky init
 
@@ -19,7 +19,12 @@ chmod +x .husky/commit-msg
 
 # Remove the default pre-commit hook
 if [[ "$OSTYPE" == darwin* ]]; then
-  sed -i '' '/npm test/d\\' .husky/pre-commit
+  sed -i '' '/npm test/d' .husky/pre-commit
 else
-  sed -i '/npm test/d\\' .husky/pre-commit
+  sed -i '/npm test/d' .husky/pre-commit
 fi
+
+# gitignore
+grep -qxF "node_modules" .gitignore || echo "node_modules" >> .gitignore
+grep -qxF ".husky/" .gitignore || echo ".husky/" >> .gitignore
+grep -qxF "commitlint.config.js" .gitignore || echo "commitlint.config.js" >> .gitignore
