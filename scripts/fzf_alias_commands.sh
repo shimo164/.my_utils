@@ -32,12 +32,12 @@ commands=(
   ["git toplevel dir"]="git rev-parse --show-toplevel"
   ["git ignore global"]="code ~/.config/git/ignore"
   ["git checkout"]="bash ${DIR}/git_branch_checkout.sh"
+  ["setup husky"]="bash ${DIR}/setup-husky.sh"
   ["ChatGPT print out files"]="bash ${DIR}/print_out_selected_files.sh > ${DIR}/tmp_print_out_selected_files.txt && code ${DIR}/tmp_print_out_selected_files.txt"
 )
 
 declare -A commands_private
 commands_private=(
-
 )
 
 # Merge commands and commands_private
@@ -54,10 +54,23 @@ selected_alias=$(echo "$alias_list" | fzf)
 # Get the corresponding command
 selected_command="${commands["$selected_alias"]}"
 
-# Run the selected command
 if [ -n "$selected_command" ]; then
-  echo "Running: $selected_command"
-  eval "$selected_command"
-else
-  echo "Command not found!"
+  # Expand variables for preview
+  expanded_command=$(eval "echo \"$selected_command\"")
+
+  echo "Command to run:"
+  echo "$expanded_command"
+  echo
+
+  # Wait for a single key
+  read -rsn1 -p "Press Enter to execute, any other key to cancel: " key
+  echo
+
+  # If key is empty, it means Enter was pressed
+  if [[ -z "$key" ]]; then
+    echo "Running: $expanded_command"
+    eval "$expanded_command"
+  else
+    echo "Canceled."
+  fi
 fi
