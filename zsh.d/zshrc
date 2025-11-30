@@ -1,11 +1,18 @@
+# Kiro CLI pre block. Keep at the top of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh"
+# # Amazon Q pre block. Keep at the top of this file.
+# [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
+
+zsh_folder=/Users/user/.my_utils/zsh.d/
+
 # Load Oh My Zsh configuration
-source "${0:A:h}/init/oh_my_zsh"
+source "${zsh_folder}/init/oh_my_zsh"
 
 # Load zsh file loader
-source "${0:A:h}/init/loader"
+source "${zsh_folder}/init/loader"
 
 # Load history utilities
-source "${0:A:h}/init/history_write"
+source "${zsh_folder}/init/history_write"
 
 # 既存の Ctrl+  を無効化(-r)
 bindkey -r '^R'
@@ -34,7 +41,7 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 ### BELOW ARE FOR APPLICATIONS ###
 
 # fzf
-source "${0:A:h}/init/fzf_helper"
+source "${zsh_folder}/init/fzf_helper"
 
 # NVM
 # export NVM_DIR="$HOME/.nvm"
@@ -50,4 +57,12 @@ export PATH_SCRIPTS=$HOME/.my_utils/scripts
 # Set PATH for npm global packages
 export PATH="$HOME/.npm-global/bin:$PATH"
 
-[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
+# [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
+# export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
+# export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
+
+# # Amazon Q post block. Keep at the bottom of this file.
+# [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
+
+# Kiro CLI post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"

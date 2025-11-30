@@ -27,16 +27,30 @@ alias gp='git pull'
 alias gs='git status'
 alias gsl='git stash list'
 
-# Use function instead of long alias
+# # Use function instead of long alias
 unalias ls
 ls(){
-  command ls --color=auto --human-readable --group-directories-first --time-style=long-iso "$@"
+  command ls -G "$@"
 }
+# ls(){  # Ubuntu
+#   command ls --color=auto --human-readable --group-directories-first --time-style=long-iso "$@"
+# }
 
 unalias grep
 grep() {
   command grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox,.venv,venv} "$@"
 }
+
+mkd() {
+  if [ -z "$1" ]; then
+    echo "Usage: mkd <dirname>"
+    return 1
+  fi
+  command mkdir -p "$1" && cd "$1"
+}
+
+
+
 
 # Use trash-cli instead of rm
 alias rm='echo "This is not the command you are looking for. Use 'trash'."; false'
@@ -50,7 +64,7 @@ alias ff='bash $PATH_SCRIPTS/fzf_alias_commands.sh'
 alias gg='bash $PATH_SCRIPTS/git_branch_checkout.sh'
 alias zrc='bash $PATH_SCRIPTS/open_zsh_files.sh'
 alias zrs='source ~/.zshrc'
-alias mkd='function _mkd(){ mkdir -p "$1" && cd "$1"; }; _mkd'
+# alias mkd='function _mkd(){ mkdir -p "$1" && cd "$1"; }; _mkd'
 
 # BEGIN: expand alias with space key
 function expand-alias() {

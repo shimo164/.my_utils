@@ -16,7 +16,7 @@ function is_ignore_history() {
   return 1
 }
 
-# zsh history skip original history write
+# skip original zsh history write
 function zshaddhistory() {
 
   # Set command line as the global variable
@@ -39,8 +39,8 @@ function save_command() {
   fi
 }
 
-# Workaround for when the exit status of the last command
-# is available in precmd not in zshaddhistory.
+# Workaround for when the exit status of the last command is available
+# in precmd instead of in zshaddhistory.
 autoload -Uz add-zsh-hook
 # zshaddhistory() is called before precmd.
 add-zsh-hook precmd save_command
