@@ -33,7 +33,8 @@ commands=(
   ["git ignore global"]="code ~/.config/git/ignore"
   ["git checkout"]="bash ${DIR}/git_branch_checkout.sh"
   ["setup husky"]="bash ${DIR}/setup-husky.sh"
-  ["ChatGPT print out files"]="bash ${DIR}/print_out_selected_files.sh > ${DIR}/tmp_print_out_selected_files.txt && code ${DIR}/tmp_print_out_selected_files.txt"
+  ["date update GoogleJapanese"]="python3 /Users/user/workspace/project/google-japanese-weekday/update_dictionary.py --no-backup"
+  ["print out files for chatgpt"]="bash ${DIR}/print_out_selected_files.sh > ${DIR}/tmp_print_out_selected_files.txt && code ${DIR}/tmp_print_out_selected_files.txt"
 )
 
 declare -A commands_private

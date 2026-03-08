@@ -59,11 +59,11 @@ alias sudo='sudo '
 
 alias tf='terraform'
 
-alias cc='cd_history'  # cd to history path. Used with cd_history.zsh.
-alias ff='bash $PATH_SCRIPTS/fzf_alias_commands.sh'
-alias gg='bash $PATH_SCRIPTS/git_branch_checkout.sh'
-alias zrc='bash $PATH_SCRIPTS/open_zsh_files.sh'
-alias zrs='source ~/.zshrc'
+alias c='cd_history'  # cd to history path. Used with cd_history.zsh.
+alias f='bash $PATH_SCRIPTS/fzf_alias_commands.sh'
+alias g='bash $PATH_SCRIPTS/git_branch_checkout.sh'
+alias zso='bash $PATH_SCRIPTS/open_zsh_files.sh'
+alias zss='source ~/.zshrc'
 # alias mkd='function _mkd(){ mkdir -p "$1" && cd "$1"; }; _mkd'
 
 # BEGIN: expand alias with space key
